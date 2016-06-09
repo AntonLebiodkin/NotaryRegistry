@@ -1,0 +1,293 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Board</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#tab-1" data-toggle="tab">Home</a></li>
+            <li><a href="#tab-2" data-toggle="tab">Додати нотаріуса</a></li>
+            <li><a href="#tab-3" data-toggle="tab">Додати нотаріальну контору</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пошук
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#tab-4" data-toggle="tab">Нотаріуса</a></li>
+                  <li><a href="#tab-5" data-toggle="tab">Нотаріальної контори</a></li>
+                  <li><a href="#tab-6" data-toggle="tab">За адресою</a></li>
+                </ul>
+             </li>
+            <!--<li><a href="#tab-4" data-toggle="tab">Пошук</a></li>-->
+            <li><a href="#tab-7" data-toggle="tab">Редагування даних</a></li>
+            <li><a href="#tab-8" data-toggle="tab">Перегляд заявок</a></li>
+        </ul>
+    </div>
+    <div class="tab-content col-md-10">
+        <div class="tab-pane active" id="tab-1">
+            <div class="row">
+                <div class="col-md-12 col-sm-6">
+                    <br>
+                    <h2 class="text-center">Ласкаво просимо, {{ admin }}</h2>
+                    <br>
+                    <hr>
+                <br>
+                </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="text-center">Всього нотаріусів в базі: {{ notarius }}</h3>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h3 class="text-center">Всього нотаріальних контор в базі: {{ notary_office }}</h3>
+                    </div>
+
+            </div>
+
+        </div>
+        <div class="tab-pane" id="tab-2">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="text-center">Додати нотаріуса:</h2>
+                <form method="post" action="add_notarius" role="form"> {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Ім'я:</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Прізвище:</label>
+                        <input type="text" class="form-control" id="surname" name="surname">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">По батькові:</label>
+                        <input type="text" class="form-control" id="patronym" name="patronym">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="certificate">Номер сертифікату:</label>
+                        <input type="text" class="form-control" id="certificate" name="certificate">
+                    </div>
+                    <hr>
+                    <h3>Місце розташування</h3>
+                    <div class="form-group">
+                        <label for="region">Область:</label>
+                        <select class="input-large form-control" id="region" name="region">
+                            {% for reg in regions %}
+                                <option>{{reg.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Місто:</label>
+                        <input type="text" class="form-control" id="city" name="city">
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Вулиця:</label>
+                        <input type="text" class="form-control" id="street" name="street">
+                    </div>
+                    <div class="form-group">
+                        <label for="building">Будинок:</label>
+                        <input type="text" class="form-control" id="building" name="building">
+                    </div>
+                    <hr>
+                    <h3>Контакти</h3>
+                    <div id="notary-contacts">
+                        <div class="form-group">
+                            <label for="region">Тип:</label>
+                            <select class="input-large form-control" id="type" name="type">
+                                <option value="0">Робочий</option>
+                                <option value="1">Приватний</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Номер телефону:</label>
+                            <input type="text" class="form-control" id="phone" name="phone">
+                        </div>
+                    </div>
+                    <hr>
+                   <button type="submit" class="btn btn-success btn-lg">Додати</button>
+
+
+                </form>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="tab-3">
+            <div class="col-md-10 col-md-offset-1">
+                <h2 class="text-center">Додати нотаріальну контору:</h2>
+                <br>
+                <form method="post" action="add_notary_office" role="form"> {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Назва державної нотаріальної контори:</label>
+                        <input type="text" class="form-control" id="name" name="name" required="required">
+                    </div>
+                    <hr>
+                    <h3>Місце розташування</h3>
+                    <div class="form-group">
+                        <label for="region">Область:</label>
+                        <select class="input-large form-control" id="region" name="region">
+                            {% for reg in regions %}
+                                <option>{{reg.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Місто:</label>
+                        <input type="text" class="form-control" id="city" name="city" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Вулиця:</label>
+                        <input type="text" class="form-control" id="street" name="street" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="building">Будинок:</label>
+                        <input type="text" class="form-control" id="building" name="building" required="required">
+                    </div>
+                    <hr>
+                    <h3>Контакти</h3>
+                    <div id="notary-contacts">
+                        <div class="form-group">
+                            <label for="region">Тип:</label>
+                            <select class="input-large form-control" id="type" name="type">
+                                <option value="0">Робочий</option>
+                                <option value="1">Приватний</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Номер телефону:</label>
+                            <input type="text" class="form-control" id="phone" name="phone" required="required">
+                        </div>
+                    </div>
+                    <hr>
+                    <h3>Додати нотаріусів:</h3>
+                    <p style="color:red;"><strong>{{ certificate_error }}</strong></p>
+                    <p>(Введіть 4-значний номер свідоцтва)</p>
+                    <button type="button" class="btn btn-default btn-lg pull-right" id="office_add_notarius">+</button>
+                    <br>
+                    <br>
+                    <div id="office_notarius">
+
+                    </div>
+                   <button type="submit" class="btn btn-success btn-lg">Додати</button>
+
+
+                </form>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab-4">
+            <h2>Пошук нотаріусів:</h2>
+            <div class="form-group">
+                <label for="search_certificate">Номер сертифікату:</label>
+                <input type="text" class="form-control" id="search_certificate" name="certificate">
+            </div>
+            <div class="form-group">
+                <label for="search_surname">Прізвище:</label>
+                <input type="text" class="form-control" id="search_surname" name="surname">
+            </div>
+            <div class="form-group">
+                <label for="search_name">Ім'я:</label>
+                <input type="text" class="form-control" id="search_name" name="name">
+            </div>
+
+            <div class="form-group">
+                <label for="search_patronym">По батькові:</label>
+                <input type="text" class="form-control" id="search_patronym" name="patronym">
+            </div>
+            <p id="notarius_search_error" style="color:red;"><strong></strong></p>
+            <button class="btn btn-success btn-lg notary_search">Знайти</button>
+
+            <div id="notarius_results"></div>
+
+
+
+
+        </div>
+        <div class="tab-pane" id="tab-5">
+            <h2>Пошук державних нотаріальних контор</h2>
+            <div class="form-group">
+                <label for="region">Регіон:</label>
+                <select class="input-large form-control" id="region_search" name="region">
+                    <option>Оберіть регіон</option>
+                    {% for reg in regions %}
+                        <option>{{reg.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="region">Назва державної нотаріальної контори:</label>
+                <select class="input-large form-control" id="search_office_name" name="search_office_name">
+                    <option>Оберіть державну нотаріальну контору</option>
+                </select>
+            </div>
+            <button class="btn btn-success btn-lg office_search">Знайти</button>
+
+
+            <p id="office_search_error" style="color: red;"><strong></strong></p>
+            <div id="hui"></div>
+            <div id="office_res">
+
+            </div>
+
+
+
+
+        </div>
+        <div class="tab-pane" id="tab-6">
+            <h2>Пошук за адресою</h2>
+            <div class="checkbox">
+                <label><input type="checkbox" value="notarius">Нотаріус</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="office">Державна нотаріальна контора</label>
+            </div>
+            <div class="form-group">
+                <label for="general_region_search">Регіон:</label>
+                <select class="input-large form-control" id="general_region_search" name="region">
+                    <option>Оберіть регіон</option>
+                    {% for reg in regions %}
+                        <option>{{reg.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="general_city_search">Місто:</label>
+                <select class="input-large form-control" id="general_city_search" name="city">
+                    <option>Оберіть місто</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="street_search">Вулиця:</label>
+                <input type="text" class="form-control" id="street_search" name="certificate">
+            </div>
+
+            <button class="btn btn-success btn-lg notary_search">Знайти</button>
+
+            <div id="adress_search_res"></div>
+
+
+        </div>
+
+
+        <div class="tab-pane" id="tab-7">
+
+        </div>
+        <div class="tab-pane" id="tab-8">
+            <h2>Пошук за адресою:</h2>
+        </div>
+
+
+
+    </div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/frontend.js' %}"></script>
+</html>

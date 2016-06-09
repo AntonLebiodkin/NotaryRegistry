@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<div class="col-lg-12">
+    <table class="table table-hover table-bordered table-responsive" id="crud-table">
+        <thead>
+            <th>#</th>
+            <th>Нотаріус / Нотаріальна контора</th>
+            <th>Контактні дані</th>
+        </thead>
+        <tbody>
+            {%  for n in notariuses %}
+                <tr>
+                    <td>
+                        <p class="number">{{ n.id }}</p>
+                    </td>
+                    <td>
+                        <p>{{ p.surname }} {{ p.name }} {{ p.patronym }}</p>
+                        <p class="name">Приватний нотаріус, cвідоцтво {{n.certificate_num}}</p>
+                    </td>
+                    <td>
+                        <p class="contacts">м. {{ n.place.city }},вул. {{ n.place.street }}, {{ n.place.building }},</p>
+                    </td>
+                </tr>
+            {% endfor %}
+            {%  for o in offices %}
+                <tr>
+                    <td>
+                        <p class="number">{{ o.id }}</p>
+                    </td>
+                    <td>
+                        <p class="name">{{o.name}}</p>
+                    </td>
+                    <td>
+                        <p class="contacts">м. {{ office.place.city }},вул. {{ office.place.street }}, {{ office.place.building }},</p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="{% static 'js/frontend.js' %}"></script>

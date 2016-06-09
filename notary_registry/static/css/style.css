@@ -1,0 +1,64 @@
+.navbar {
+    margin: 0;
+}
+.navbar button {
+    margin-right: 20px;
+}
+.jumbotron{
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url("../img/notary.jpg"), no-repeat, center, center, fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 95vh;
+}
+.jumbotron .container{
+    position: relative;
+    top: 200px;
+}
+.jumbotron .container h1{
+    color: #ffffff;
+}
+.jumbotron .container h2{
+    font-size: 2em;
+    color: #ffffff;
+}
+#login-form h2{
+    margin-bottom: 30px;
+}
+#login-form{
+    margin: 0 auto;
+    margin-top: 30vh;
+    width: 70%;
+}
+
+#notary-search {
+    margin: 0 auto;
+    width: 70%;
+}
+a {
+    text-decoration: none;
+}
+.admin-menu {
+    width: 40%;
+    height: 15%;
+    display: block;
+    margin: 5% auto;
+    font-size: 2em;
+}
+.back {
+    position: fixed;
+    top: 5%;
+    left: 5%;
+}
+
+.notary_input_block {
+    margin: 20px;
+}
+
+#notarius_results {
+
+    margin-top: 50px;
+
+}
+

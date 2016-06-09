@@ -1,0 +1,25 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Реєстр нотаріусів України</h1>
+            <h2>Знайди свого нотаріуса</h2>
+            <a href="notary_search">
+                <button class="btn btn-primary btn-lg">Пошук нотаріуса</button>
+            </a>
+            <button class="btn btn-success btn-lg">Пошук нотаріальної контори</button>
+            <button class="btn btn-warning btn-lg">Пошук за адресою</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<div class="col-lg-12">
+    <table class="table table-hover table-bordered table-responsive" id="crud-table">
+        <thead>
+            <th>#</th>
+            <th>Назва державної нотаріальної контори</th>
+            <th>Контактні дані</th>
+        </thead>
+        <tbody>
+            {%  for office in offices %}
+                <tr>
+                    <td>
+                        <p class="number">{{ iterator.next}}</p>
+                    </td>
+                    <td>
+                        <p class="name">{{office.name}}</p>
+                    </td>
+                    <td>
+                        <p class="contacts">м. {{ office.place.city }},вул. {{ office.place.street }}, {{ office.place.building }},</p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="{% static 'js/frontend.js' %}"></script>
