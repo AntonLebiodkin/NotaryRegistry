@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+STATIC_ROOT = "/home/anton/PROJECTS/FREELANCER_BOOTSTRAP/VASSISTA/mysite/static/"
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 

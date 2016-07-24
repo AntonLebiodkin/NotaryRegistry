@@ -7,6 +7,7 @@
             <th>#</th>
             <th>Назва державної нотаріальної контори</th>
             <th>Контактні дані</th>
+            <th>Редагування</th>
         </thead>
         <tbody>
             {%  for office in offices %}
@@ -15,12 +16,107 @@
                         <p class="number">{{ iterator.next}}</p>
                     </td>
                     <td>
-                        <p class="name">{{office.name}}</p>
+                        <p class="office_name">{{office.name}}</p>
                     </td>
                     <td>
                         <p class="contacts">м. {{ office.place.city }},вул. {{ office.place.street }}, {{ office.place.building }},</p>
                     </td>
+                    <td>
+                        <button type="button" class="btn btn-warning office_edit_open" data-toggle="modal" data-target="#edit_office_modal">
+                          Редагувати
+                        </button>
+                        <button type="button" class="btn btn-danger delete_office">
+                          Видалити
+                        </button>
+                        <div id="edit_office_modal" class="modal fade" role="dialog">
+                              <div class="modal-dialog">
+                                <!-- Modal content-->
+                                    <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Редагування нотаріуса</h4>
+                                          </div>
+                                          <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="name">Назва державної нотаріальної контори:</label>
+                                                    <input type="text" class="form-control" id="office_edit_name" required="required">
+                                                </div>
+                                                <hr>
+                                                <h3>Місце розташування</h3>
+                                                <div class="form-group">
+                                                    <label for="region">Область:</label>
+                                                    <select class="input-large form-control" id="office_edit_region" name="region">
+                                                        {% for reg in regions %}
+                                                            <option>{{reg.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="city">Місто:</label>
+                                                    <input type="text" class="form-control" id="office_edit_city" name="city" required="required">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="street">Вулиця:</label>
+                                                    <input type="text" class="form-control" id="office_edit_street" name="street" required="required">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="building">Будинок:</label>
+                                                    <input type="text" class="form-control" id="office_edit_building" name="building" required="required">
+                                                </div>
+                                                <hr>
+                                                <h3>Контакти</h3>
+                                                <div id="notary-contacts">
+                                                    <div class="form-group">
+                                                        <label for="region">Тип:</label>
+                                                        <select class="input-large form-control office_edit_phone_type" id="type" name="type">
+                                                            <option value="0">Робочий</option>
+                                                            <option value="1">Приватний</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="city">Номер телефону:</label>
+                                                        <input type="text" class="form-control" id="office_edit_phone" name="phone" required="required">
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <h3>Нотаріуси:</h3>
+                                                <p style="color:red;"><strong>{{ certificate_error }}</strong></p>
+                                                <p>(Введіть 4-значний номер свідоцтва)</p>
+                                                <button type="button" class="btn btn-default btn-lg pull-right" id="office_edit_add_notarius">+</button>
+                                                <div id="office_edit_notariuses"></div>
+                                                <br>
+                                                <br>
+                                          </div>
+                                          <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary edit_save_office" data-dismiss="modal">Зберегти</button>
+                                          </div>
+                                    </div>
+                              </div>
+                        </div>
+                    </td>
                 </tr>
+                {%  for notarius in notariuses %}
+                <tr>
+                    <td>
+                        <p class="number">{{ iterator.next }}</p>
+                    </td>
+                    <td>
+                        <p class="name">{{n.name}} {{n.surname}} {{n.patronym}}</p>
+                    </td>
+                    <td>
+                        <p class="certificate">{{n.certificate_num}}</p>
+                    </td>
+                    <td>
+                        <p class="activity_type">{{ n.activity_type.description }} нотаріус. {{ n.notary_office.name }}</p>
+                    </td>
+                    <td>
+                        <p class="region">{{ n.place.region.name }}</p>
+                    </td>
+                    <td>
+                        <p class="format">м. {{ n.place.city }}, вул. {{ n.place.street }},  {{ n.place.building }}</p>
+                    </td>
+                </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>
@@ -28,5 +124,7 @@
 
 
 
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+<script src="{% static 'js/jquery-1.12.4.min.js'%}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/frontend.js' %}"></script>

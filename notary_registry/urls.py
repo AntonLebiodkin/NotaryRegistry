@@ -16,8 +16,12 @@ urlpatterns = [
     url(r'^office_search$', views.office_search, name='office_search'),
     url(r'^adress_search$', views.adress_search, name='adress_search'),
     url(r'^delete_notarius$', views.delete_notarius, name='delete_notarius'),
+    url(r'^delete_office$', views.delete_office, name='delete_office'),
     url(r'^get_notarius$', views.get_notarius, name='get_notarius'),
+    url(r'^get_office$', views.get_office, name='get_office'),
     url(r'^update_notarius$', views.update_notarius, name='update_notarius'),
+    url(r'^update_office$', views.update_office, name='update_office'),
+    url(r'^quit$', views.quit, name='quit')
 
 
 ]

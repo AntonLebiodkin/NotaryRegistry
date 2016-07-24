@@ -25,9 +25,11 @@
                   <li><a href="#tab-6" data-toggle="tab">За адресою</a></li>
                 </ul>
              </li>
-            <!--<li><a href="#tab-4" data-toggle="tab">Пошук</a></li>-->
-            <li><a href="#tab-7" data-toggle="tab">Редагування даних</a></li>
-            <li><a href="#tab-8" data-toggle="tab">Перегляд заявок</a></li>
+            <li>
+                <form action="quit" method="get">
+                    <button type="submit" class="btn btn-default">Вийти</button>
+                </form>
+            </li>
         </ul>
     </div>
     <div class="tab-content col-md-10">
@@ -228,7 +230,6 @@
 
 
             <p id="office_search_error" style="color: red;"><strong></strong></p>
-            <div id="hui"></div>
             <div id="office_res">
 
             </div>
@@ -284,10 +285,9 @@
 
     </div>
 
-
 </body>
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="{% static 'js/jquery-1.12.4.min.js'%}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/frontend.js' %}"></script>
 </html>

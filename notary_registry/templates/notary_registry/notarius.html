@@ -40,23 +40,6 @@
                     <button type="button" class="btn btn-danger delete_notarius" data-toggle="modal" data-target="#delete_notarius_modal">
                       Видалити
                     </button>
-                    <div id="delete_notarius_modal" class="modal fade" role="dialog">
-                          <div class="modal-dialog">
-                            <!-- Modal content-->
-                                <div class="modal-content">
-                                      <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Modal Header</h4>
-                                      </div>
-                                      <div class="modal-body">
-                                        <p>Some text in the modal.</p>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-                                      </div>
-                                </div>
-                          </div>
-                    </div>
                         <div id="edit_notarius_modal" class="modal fade" role="dialog">
                               <div class="modal-dialog">
                                 <!-- Modal content-->
@@ -140,6 +123,6 @@
 </div>
 
 
-
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script src="{% static 'js/jquery-1.12.4.min.js'%}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/frontend.js' %}"></script>

@@ -11,7 +11,22 @@ from django.shortcuts import redirect
 from django.core import serializers
 import json
 import itertools
+from selenium import webdriver
+import unittest
 
+
+class GoogleTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.addCleanup(self.browser.quit)
+
+    def testPageTitle(self):
+        self.browser.get('/admin_panel')
+        self.assertIn('Admin Board', self.browser.title)
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
 
 
 def index(request):
@@ -108,7 +123,7 @@ def add_notary_office(request):
     phone_number = request.POST['phone']
 
     certificates = request.POST.getlist('certificate')
-
+    print certificates
 
     everybody_exist = True
     if (len(certificates) == 0):
@@ -161,7 +176,7 @@ def load_cities(request):
     print len(cities) == 0
     if len(cities) == 0:
         print "ZERO"
-        return HttpResponse("GOOD")
+        return HttpResponse("None")
     else:
         result = serializers.serialize("json", cities)
         print cities
@@ -195,27 +210,33 @@ def notarius_search(request):
 
 def office_search(request):
     name = request.GET['office']
+    region = request.GET['region']
+
     print name
+    iterator= itertools.count()
+    iterator.next()
     if (name):
         office = Notary_Office.objects.get(name=name)
         offices = []
         offices.append(office)
-        notariuses = Notarius.objects.filter(notary_office=office)
-        print "Notariuses ", notariuses
-        print office
-        iterator= itertools.count()
-        iterator.next()
-        #notariuses = render_to_string('notary_registry/notarius.html', {"notariuses": notariuses,  "iterator": iterator})
-        print notariuses
+        notarius = Notarius.objects.filter(notary_office=office)
+        notariuses = render_to_string('notary_registry/notarius.html', {"notariuses": notarius,  "iterator": iterator})
         table = render_to_string('notary_registry/notary_office.html', {"offices": offices,  "iterator": iterator})
-        print table
         res_object = {}
-        #res_object["notariuses"] = notariuses
+        res_object["notariuses"] = notariuses
         res_object["table"] = table
         print res_object
         return HttpResponse(json.dumps(res_object))
-    else:
-        return HttpResponse("None")
+    elif (region):
+        print "REGION"
+        offices = Notary_Office.objects.filter(place__region__name=region)
+        if (offices):
+            table = render_to_string('notary_registry/notary_office.html', {"offices": offices,  "iterator": iterator})
+            res_object = {}
+            res_object["table"] = table
+            return HttpResponse(json.dumps(res_object))
+        else:
+            return HttpResponse("None")
 
 def adress_search(request):
     region = request.GET['region']
@@ -232,11 +253,14 @@ def delete_notarius(reqest):
     print certificate
     return redirect('/admin_panel')
 
+def delete_office(reqest):
+    office = reqest.GET['office']
+    print office
+    Notary_Office.objects.get(name=office).delete()
+    return redirect('/admin_panel')
+
 def get_notarius(request):
     certificate = request.GET['certificate']
-
-
-
     notarius = Notarius.objects.get(certificate_num=certificate)
     notariuses = []
     notariuses.append(notarius)
@@ -263,10 +287,44 @@ def get_notarius(request):
     print notariuses
     return HttpResponse(res)
 
+def get_office(request):
+    name = request.GET['name']
+    print "Name ", name
+    office = Notary_Office.objects.get(name=name)
+    offices = []
+    offices.append(office)
+
+    phone = Phone.objects.get(place=office.place)
+    phones = []
+    phones.append(phone)
+
+    place = office.place
+    places = []
+    places.append(place)
+
+    region = office.place.region
+    regions = []
+    regions.append(region)
+
+    notariuses = Notarius.objects.filter(notary_office=office)
+    print notariuses
+
+    res = {}
+    res["office"] = serializers.serialize('json', offices)
+    res["notariuses"] = serializers.serialize('json', notariuses)
+    res["place"] = serializers.serialize('json', places)
+    res["phone"] = serializers.serialize('json', phones)
+    res["region"] = serializers.serialize('json', regions)
+    res = json.dumps(res)
+    return HttpResponse(res)
+
+
+
+
 def update_notarius(request):
 
     old_certificate = request.GET['old_certificate']
-    name = unicode(request.GET['name']),
+    name = (request.GET['name'])
     surname = request.GET['surname']
     patronym = request.GET['patronym']
     certificate = request.GET['certificate']
@@ -296,6 +354,36 @@ def update_notarius(request):
 
     print "Updates successfully"
     return redirect('/admin_panel')
+
+def update_office(request):
+    prev_name = request.GET['prev_name']
+    name = request.GET['name']
+
+    region = request.GET['region']
+
+    city = request.GET['city']
+    street = request.GET['street']
+    building = request.GET['building']
+
+    phone = request.GET['phone']
+
+    o = Notary_Office.objects.get(name = prev_name)
+    p = Phone.objects.get(place=o.place)
+    o.name = name
+    o.place.region.name = region
+    o.place.city = city
+    o.place.building = building
+    o.save()
+
+    p.phone_number = phone
+    p.save()
+
+    print "Updates successfully"
+    return redirect('/admin_panel')
+def quit(request):
+    print "QUIT"
+    request.session["admin"] = None
+    return redirect('/')
 
 def create_regions():
     Region.objects.all().delete()
